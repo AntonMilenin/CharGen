@@ -99,8 +99,10 @@ public class ImagePanel extends JPanel {
 		super.setLayout(null);
 
 		try {
-			image = ImageIO.read(ImagePanel.class
-					.getResourceAsStream("/images/atarax_sheet_p1-1.png"));
+//			image = ImageIO.read(ImagePanel.class
+//					.getResourceAsStream("/images/atarax_sheet_p1-1.png"));
+            image = ImageIO.read(ImagePanel.class
+                    .getResourceAsStream("/images/atarax_sheet_2_0.png"));
 			imagesLoaded = true;
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -169,30 +171,52 @@ public class ImagePanel extends JPanel {
 	}
 
 	private void addTextFields() {
-		MyTextComponent name = new MyTextComponent(100, 150, 717, 60, "Дребон");
 
-		clusters.put("characterName", name);
+        final int charLeftBound = 150;
+        final int charBotBound = 250;
+        final int playerLeftBound = 1267;
+        final int speciesBotBound = 370;
+        final int raceLeftBound = 710;
+        final int skillPointsLeftBound = 1000;
+        final int physicalPoolLeftBound = 1627;
+        final int mentalPoolLeftBound = 1987;
 
-		MyTextComponent playerName = new MyTextComponent(817, 150, 376, 60,
-				"Дребон");
+		MyTextComponent name = new MyTextComponent(charLeftBound, charBotBound, 717, 60, "пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-		clusters.put("playerName", playerName);
+		clusters.put(Constants.characterNameId, name);
 
-		ChoiceCluster species = new ChoiceCluster(100, 240, 360, 60, "---");
+		MyTextComponent playerName = new MyTextComponent(playerLeftBound, charBotBound, 376, 60,
+				"Potato");
 
-		clusters.put("species", species);
+		clusters.put(Constants.playerNameId, playerName);
+
+		ChoiceCluster species = new ChoiceCluster(charLeftBound, speciesBotBound, 500, 60, "---");
+		clusters.put(Constants.speciesId, species);
 		species.add("Drebon");
-		species.add("Дребон");
-		ChoiceCluster race = new ChoiceCluster(460, 240, 360, 60, "---");
+		species.add("пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-		clusters.put("race", race);
+		ChoiceCluster race = new ChoiceCluster(raceLeftBound, speciesBotBound, 260, 60, "---");
+		clusters.put(Constants.raceId, race);
 		race.add("Drebon");
-		race.add("Дребон");
+		race.add("пїЅпїЅпїЅпїЅпїЅпїЅ");
 
-		MyTextComponent exp = new MyTextComponent(820, 240, 360, 60, "650");
-		exp.attach(this);
-		clusters.put("exp", exp);
-		clusters.put(Constants.STRENGTH, new NumberCluster(321, 540, 76, 46, "10"));
+		MyTextComponent skillPoints = new MyTextComponent(skillPointsLeftBound, speciesBotBound, 260, 60, "650");
+		skillPoints.attach(this);
+		clusters.put(Constants.skillPointsId, skillPoints);
+
+        MyTextComponent attributePoints = new MyTextComponent(playerLeftBound, speciesBotBound, 360, 60, "3");
+        attributePoints.attach(this);
+        clusters.put(Constants.attributePointsId, attributePoints);
+
+        MyTextComponent physicalPool = new MyTextComponent(physicalPoolLeftBound, speciesBotBound, 360, 60, "0");
+        physicalPool.attach(this);
+        clusters.put(Constants.physicalPoolId, physicalPool);
+
+        MyTextComponent mentalPool = new MyTextComponent(mentalPoolLeftBound, speciesBotBound, 360, 60, "0");
+        mentalPool.attach(this);
+        clusters.put(Constants.mentalPoolId, mentalPool);
+
+        clusters.put(Constants.STRENGTH, new NumberCluster(321, 540, 76, 46, "10"));
 
 		clusters.put(Constants.DEXTERETY, new NumberCluster(321, 588, 76, 46, "10"));
 
@@ -217,7 +241,7 @@ public class ImagePanel extends JPanel {
 					53, "acrobatics"));
 
 			clusters.put(Constants.SKILL + i + Constants.STAT, new ChoiceCluster(478,
-					skillY[i], 69, 53, Constants.DEXTERETY.substring(0, 3)));			
+					skillY[i], 69, 53, Constants.DEXTERETY.substring(0, 3)));
 			clusters.put(Constants.SKILL + i + Constants.RANK, new NumberCluster(549,
 					skillY[i], 69, 53, "10"));
 
