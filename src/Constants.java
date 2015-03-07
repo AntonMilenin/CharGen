@@ -3,9 +3,9 @@ import java.awt.Font;
 
 public class Constants {
 
-	public static final int WIDTH = 1656;
+	public static final int WIDTH = 2481;
 //	public static final int HEIGHT = 2339;
-	public static final int HEIGHT = 2460; //wrong, but works TODO: investigate
+	public static final int HEIGHT = 3600; //wrong, but works TODO: investigate
 	public static final int FONT_SIZE = 46;
 	public static final int SMALL_FONT_SIZE = 20;
 	public static final String STRENGTH = "strength";
@@ -22,5 +22,14 @@ public class Constants {
 	public static final String STAT_BONUS = "statBonus";
 	public static final Font FONT = new Font("Dialog", Font.PLAIN, FONT_SIZE);
 	public static final Font SMALL_FONT = new Font("Dialog", Font.PLAIN, SMALL_FONT_SIZE);
+
+    public static final String characterNameId = "characterName";
+    public static final String playerNameId = "playerName";
+    public static final String speciesId = "species";
+    public static final String raceId = "race";
+    public static final String skillPointsId = "skillPoints";
+    public static final String attributePointsId = "attributePoints";
+    public static final String physicalPoolId = "physicalPool";
+    public static final String mentalPoolId = "mentalPool";
 	
 }
