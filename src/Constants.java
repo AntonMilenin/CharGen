@@ -5,7 +5,7 @@ public class Constants {
 
 	public static final int WIDTH = 1656;
 //	public static final int HEIGHT = 2339;
-	public static final int HEIGHT = 2460; //wrong, but works
+	public static final int HEIGHT = 2460; //wrong, but works TODO: investigate
 	public static final int FONT_SIZE = 46;
 	public static final int SMALL_FONT_SIZE = 20;
 	public static final String STRENGTH = "strength";

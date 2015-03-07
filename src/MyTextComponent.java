@@ -1,17 +1,17 @@
 import java.awt.Container;
+import java.awt.Rectangle;
 
 import javax.swing.JTextField;
 
 
 public class MyTextComponent {
-	protected int x, y, width, height, dx, dy;
+	protected Rectangle border;
+	protected int dx, dy;
 	protected JTextField textField;
+	protected ImagePanel container;
 
 	MyTextComponent(int x, int y, int width, int height, String value) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		border = new Rectangle(x, y, width, height);
 		dx = 0;
 		dy = 0;
 		textField = new BorderlessTextField();
@@ -23,14 +23,20 @@ public class MyTextComponent {
 	public void move(int dx, int dy) {
 		this.dx = dx;
 		this.dy= dy;
-		textField.setBounds(x + dx, y + dy, width, height);		
+		textField.setBounds(border.x + dx, border.y + dy, border.width, border.height);		
 	};
 	
-	public void repaint() {
+	public void repaint(Rectangle repaintArea){
+		Rectangle realBounds = new Rectangle(border.x, border.y, border.width, border.height);
+		if (realBounds.intersects(repaintArea)) repaint();
+	};
+	
+	protected void repaint() {
 		textField.repaint();
 	};
 	
-	public void attach(Container container){
+	public void attach(ImagePanel container){
+		this.container = container;
 		container.add(textField);
 	};
 	

@@ -100,7 +100,10 @@ public class ImagePanel extends JPanel {
 
 		try {
 			image = ImageIO.read(ImagePanel.class
-					.getResourceAsStream("/images/atarax_sheet_p1-1.png"));
+					.getResourceAsStream("/images/atarax_sheet_2_1.png"));
+		    Graphics2D bGr = image.createGraphics();
+		    bGr.drawImage(image.getScaledInstance(Constants.WIDTH, Constants.HEIGHT - 120, Image.SCALE_SMOOTH), 0, 0, null);
+		    bGr.dispose();
 			imagesLoaded = true;
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -162,50 +165,56 @@ public class ImagePanel extends JPanel {
 			g.drawString("Image didn't load", 5, Constants.FONT_SIZE);
 		}
 		drawHealth(g);
-
+		Rectangle bounds = this.getBounds();
+		Rectangle realBounds = new Rectangle(bounds.x - xDiff, bounds.y - yDiff,bounds.width, bounds.height );
+		System.out.println(realBounds);
 		for (MyTextComponent c : clusters.values()) {
-			c.repaint();
+			c.repaint(realBounds);
 		}
 	}
 
 	private void addTextFields() {
 		MyTextComponent name = new MyTextComponent(100, 150, 717, 60, "Дребон");
-
 		clusters.put("characterName", name);
 
 		MyTextComponent playerName = new MyTextComponent(817, 150, 376, 60,
 				"Дребон");
-
 		clusters.put("playerName", playerName);
 
 		ChoiceCluster species = new ChoiceCluster(100, 240, 360, 60, "---");
-
 		clusters.put("species", species);
 		species.add("Drebon");
 		species.add("Дребон");
+		
 		ChoiceCluster race = new ChoiceCluster(460, 240, 360, 60, "---");
-
 		clusters.put("race", race);
 		race.add("Drebon");
 		race.add("Дребон");
 
 		MyTextComponent exp = new MyTextComponent(820, 240, 360, 60, "650");
-		exp.attach(this);
-		clusters.put("exp", exp);
+		exp.attach(this);		
+		clusters.put("exp", exp);		
+
+		ChoiceCluster magic = new ChoiceCluster(100, 327, 180, 60, "None");
+		magic.add("Arcane");
+		magic.add("Elemental");
+		clusters.put("magic", magic);		
+
+		NumberCluster age = new NumberCluster(280, 327, 180, 60, "30");
+		clusters.put("age", age);
+
+		ChoiceCluster gender = new ChoiceCluster(460, 327, 180, 60, "---");
+		gender.add("Male");
+		gender.add("Female");
+		clusters.put("gender", gender);		
+		
 		clusters.put(Constants.STRENGTH, new NumberCluster(321, 540, 76, 46, "10"));
-
 		clusters.put(Constants.DEXTERETY, new NumberCluster(321, 588, 76, 46, "10"));
-
 		clusters.put(Constants.SPEED, new NumberCluster(321, 637, 76, 46, "10"));
-
 		clusters.put(Constants.VITALITY, new NumberCluster(321, 686, 76, 45, "10"));
-
 		clusters.put(Constants.PERCEPTION, new NumberCluster(321, 734, 76, 46, "10"));
-
 		clusters.put(Constants.WILLPOWER, new NumberCluster(321, 783, 76, 46, "10"));
-
 		clusters.put(Constants.INTELLIGENCE, new NumberCluster(321, 832, 76, 45, "10"));
-
 		clusters.put(Constants.CHARISMA, new NumberCluster(321, 880, 76, 46, "10"));
 
 		int[] skillY = new int[] { 1048, 1104, 1161, 1217, 1274, 1330, 1387,
@@ -217,7 +226,8 @@ public class ImagePanel extends JPanel {
 					53, "acrobatics"));
 
 			clusters.put(Constants.SKILL + i + Constants.STAT, new ChoiceCluster(478,
-					skillY[i], 69, 53, Constants.DEXTERETY.substring(0, 3)));			
+					skillY[i], 69, 53, Constants.DEXTERETY.substring(0, 3)));	
+			((ChoiceCluster) clusters.get(Constants.SKILL + i + Constants.STAT)).setFont(new Font("Dialog", Font.PLAIN, 28));
 			clusters.put(Constants.SKILL + i + Constants.RANK, new NumberCluster(549,
 					skillY[i], 69, 53, "10"));
 

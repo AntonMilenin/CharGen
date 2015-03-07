@@ -90,22 +90,24 @@ public class NumberCluster extends MyTextComponent {
 	private void hideButtons() {
 		plusButton.setVisible(false);
 		minusButton.setVisible(false);
-		textField.setBounds(x + dx, y + dy, width, height);
+		textField.setBounds(border.x + dx, border.y + dy, border.width, border.height);
 	}
 
 	private void showButtons() {		
 		plusButton.setVisible(true);
 		minusButton.setVisible(true);
-		textField.setBounds(x + dx, y + dy, width - height / 2, height);
+		textField.setBounds(border.x + dx, border.y + dy, border.width - border.height / 2, border.height);
 	}
 
-	public void attach(Container container) {
+	@Override
+	public void attach(ImagePanel container) {
 		super.attach(container);
 		container.add(plusButton);
 		container.add(minusButton);
 	}
 
-	public void repaint() {
+	@Override
+	protected void repaint() {
 		super.repaint();
 		plusButton.repaint();
 		minusButton.repaint();
@@ -113,10 +115,10 @@ public class NumberCluster extends MyTextComponent {
 
 	public void move(int dx, int dy) {
 		super.move(dx, dy);
-		int buttonLength = height / 2;
-		plusButton.setBounds(x + width - buttonLength + dx, y + dy,
+		int buttonLength = border.height / 2;
+		plusButton.setBounds(border.x + border.width - buttonLength + dx, border.y + dy,
 				buttonLength, buttonLength);
-		minusButton.setBounds(x + width - buttonLength + dx, y + buttonLength
+		minusButton.setBounds(border.x + border.width - buttonLength + dx, border.y + buttonLength
 				+ dy, buttonLength, buttonLength);
 	}
 }
