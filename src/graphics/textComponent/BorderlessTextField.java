@@ -1,3 +1,4 @@
+package graphics.textComponent;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 

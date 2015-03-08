@@ -1,5 +1,7 @@
+package graphics.textComponent;
+import graphics.Constants;
+
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -8,14 +10,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class NumberCluster extends MyTextComponent {
 	private JButton plusButton, minusButton;
 
-	NumberCluster(int x, int y, int width, int height, String value) {
+	public NumberCluster(int x, int y, int width, int height, String value) {
 		super(x, y, width, height, value);
 		textField.setHorizontalAlignment(JTextField.CENTER);
+		textField.setFocusable(false);
 		int buttonLength = height / 2;
 		MouseListener listener = new MouseListener() {
 
@@ -90,35 +94,19 @@ public class NumberCluster extends MyTextComponent {
 	private void hideButtons() {
 		plusButton.setVisible(false);
 		minusButton.setVisible(false);
-		textField.setBounds(border.x + dx, border.y + dy, border.width, border.height);
+		textField.setBounds(border.x, border.y , border.width, border.height);
 	}
 
 	private void showButtons() {		
 		plusButton.setVisible(true);
 		minusButton.setVisible(true);
-		textField.setBounds(border.x + dx, border.y + dy, border.width - border.height / 2, border.height);
+		textField.setBounds(border.x , border.y, border.width - border.height / 2, border.height);
 	}
 
 	@Override
-	public void attach(ImagePanel container) {
+	public void attach(JLabel container) {
 		super.attach(container);
 		container.add(plusButton);
 		container.add(minusButton);
-	}
-
-	@Override
-	protected void repaint() {
-		super.repaint();
-		plusButton.repaint();
-		minusButton.repaint();
-	}
-
-	public void move(int dx, int dy) {
-		super.move(dx, dy);
-		int buttonLength = border.height / 2;
-		plusButton.setBounds(border.x + border.width - buttonLength + dx, border.y + dy,
-				buttonLength, buttonLength);
-		minusButton.setBounds(border.x + border.width - buttonLength + dx, border.y + buttonLength
-				+ dy, buttonLength, buttonLength);
 	}
 }

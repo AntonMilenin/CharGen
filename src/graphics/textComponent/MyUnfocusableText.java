@@ -1,6 +1,9 @@
+package graphics.textComponent;
+
+import graphics.Constants;
 
 public class MyUnfocusableText extends MyTextComponent{
-	MyUnfocusableText(int x, int y, int width, int height, String value) {
+	public MyUnfocusableText(int x, int y, int width, int height, String value) {
 		super(x, y, width, height, value);
 		textField.setFocusable(false);
 	}
