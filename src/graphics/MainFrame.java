@@ -4,6 +4,9 @@ import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
 public class MainFrame extends JFrame {
@@ -26,6 +29,19 @@ public class MainFrame extends JFrame {
 		JScrollPane pictureScrollPane = new JScrollPane(panel);
 		pictureScrollPane.setPreferredSize(new Dimension(300, 250));
 		add(pictureScrollPane);
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu fileMenu = new JMenu("File");
+		menuBar.add(fileMenu);
+		
+		JMenuItem resetItem = new JMenuItem("Reset(nip)");
+		fileMenu.add(resetItem);
+
+		JMenuItem saveItem = new JMenuItem("Save as image(nip)");
+		fileMenu.add(saveItem);
+		
 		pack();
 		setVisible(true);
 	}
