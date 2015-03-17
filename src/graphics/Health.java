@@ -4,15 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.Collections;
 
 import javax.swing.JPanel;
+
+import mechanics.HealthGenerator;
 
 public class Health extends JPanel {
 	private final int R = 40;
 	private int[] health = new int[] { 4, 3, 2, 1 };
 	private int[] baseHealth = new int[] { 4, 3, 2, 1 };
-	private int[] healthValues = new int[] { 4, 3, 2, 1 };
-
+	private int[] healthValues = new int[] { 1, 5, 10, 15 };
+	
 	Health(int vit) {
 		setVitality(vit);
 		setBackground(Color.WHITE);
@@ -20,13 +23,8 @@ public class Health extends JPanel {
 	}
 
 	public void setVitality(int vit) {
-		System.out.println(vit);
-		for (int i = 0; i < health.length; i++) {
-			//TODO: fix formula
-			health[i] = baseHealth[i] + (vit + baseHealth[i] - 11 )/4;
-			healthValues[i] = i * 5 + vit - 10;
-		}
-		healthValues[0] = 1; 
+		health = HealthGenerator.generateHealthTriangle(vit);
+		healthValues = HealthGenerator.generateHealthValues(vit);
 		repaint();
 	}
 
@@ -43,6 +41,7 @@ public class Health extends JPanel {
 				g.drawOval(x + ((int) (Math.sqrt(3) * R * i / 2)), y + 30 + (2 * j + i) * R / 2, R, R);
 			}
 		}
+		g.drawString("" + healthValues[4], 15 + ((int) (Math.sqrt(3) * R * 2)), y - 3 + 6 * R / 2);
 	}
 
 }
