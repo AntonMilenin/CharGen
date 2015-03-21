@@ -4,16 +4,19 @@ import graphics.textComponent.*;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Scrollable;
@@ -282,5 +285,26 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
 
 		cluster.attach(this);
 		return poly;
+	}
+
+	public void saveAsImage() {
+		BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = img.createGraphics();
+		printAll(g2d);
+		g2d.dispose();
+		JFileChooser fileChooser = new JFileChooser();
+		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			String name = file.getName();
+			if (name.lastIndexOf('.') == -1 || !name.substring(name.lastIndexOf('.')).equalsIgnoreCase("png")) {
+				file = new File(file.toString() + ".png");
+			}
+			try {
+				ImageIO.write(img, "png", file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

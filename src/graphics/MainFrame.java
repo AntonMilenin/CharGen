@@ -12,8 +12,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -44,7 +42,7 @@ public class MainFrame extends JFrame implements Serializable {
 			System.out.println("URL generated");
 		}
 		ImageIcon icon = new ImageIcon(imgURL);
-		ScrollableComponent panel = new ScrollableComponent(icon);
+		final ScrollableComponent panel = new ScrollableComponent(icon);
 		JScrollPane pictureScrollPane = new JScrollPane(panel);
 		pictureScrollPane.setPreferredSize(new Dimension(300, 250));
 		add(pictureScrollPane);
@@ -58,8 +56,15 @@ public class MainFrame extends JFrame implements Serializable {
 		JMenuItem resetItem = new JMenuItem("Reset(nie)");
 		fileMenu.add(resetItem);
 
-		JMenuItem saveItem = new JMenuItem("Save as image(nie)");
+		JMenuItem saveItem = new JMenuItem("Save as image");
 		fileMenu.add(saveItem);
+		
+		saveItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ee) {
+				panel.saveAsImage();
+			}
+		});
 
 		JMenuItem saveAsXMLItem = new JMenuItem("Save as XML");
 		fileMenu.add(saveAsXMLItem);
@@ -71,6 +76,10 @@ public class MainFrame extends JFrame implements Serializable {
 					JFileChooser fileChooser = new JFileChooser();
 					if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 						File file = fileChooser.getSelectedFile();
+						String name = file.getName();
+						if (name.lastIndexOf('.') == -1 || !name.substring(name.lastIndexOf('.')).equalsIgnoreCase("xml")) {
+							file = new File(file.toString() + ".xml");
+						}
 						XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(file)));
 						e.writeObject(new GameCharacter("John Doe", Gender.FEMALE, 201, 170, "bald", "white", 555, 0,
 								30, false, new Brajagrah()));
