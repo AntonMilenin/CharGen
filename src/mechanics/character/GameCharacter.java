@@ -5,6 +5,7 @@ import mechanics.Skill;
 import mechanics.races.Brajagrah;
 import mechanics.races.RaceInfo;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -12,10 +13,10 @@ import java.util.*;
  * Date: 21.02.2015
  * Time: 2:22
  */
-public class GameCharacter {
-
+public class GameCharacter implements Serializable{
+	private static final long serialVersionUID = 7526472295622776147L;
     private HashMap<Attribute, AttributeEntry> attributes;
-    private String name;
+    public String name;
     private Gender gender;
     private int age;
     private int height;
@@ -298,7 +299,7 @@ public class GameCharacter {
      * Date: 21.02.2015
      * Time: 1:34
      */
-    public static class AttributeEntry {
+    public static class AttributeEntry implements Serializable{
 
         private static final int ATTRIBUTE_BASE = 10;
         private static final int LEARNING_COEFFICIENT = 30;

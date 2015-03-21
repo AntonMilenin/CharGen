@@ -22,12 +22,12 @@ public class DamageRoller {
 			}
 		}
 	}
-	
-	public DamageRoller(int constantDamage){
+
+	public DamageRoller(int constantDamage) {
 		constantBonus = constantDamage;
 	}
 
-	public int rollDamage(){
+	public int rollDamage() {
 		int result = constantBonus;
 		for (Dice dice : dices) {
 			result += dice.roll();

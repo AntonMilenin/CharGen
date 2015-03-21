@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Dice {
 	private int quantaty, value;
-	private Random random = new Random();
+	private static Random random = new Random(System.currentTimeMillis());
 
 	public Dice(int quantaty, int value) {
 		this.quantaty = quantaty;
