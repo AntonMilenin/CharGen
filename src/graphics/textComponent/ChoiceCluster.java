@@ -1,4 +1,5 @@
 package graphics.textComponent;
+
 import graphics.Constants;
 
 import java.awt.Color;
@@ -41,13 +42,13 @@ public class ChoiceCluster extends MyTextComponent {
 		choice.addItem(value);
 	}
 
-	private void showChoice() {
+	public void showChoice() {
 		showed = true;
 		choice.setVisible(true);
 		textField.setVisible(false);
 	}
 
-	private void hideChoice() {
+	public void hideChoice() {
 		showed = false;
 		choice.setVisible(false);
 		textField.setVisible(true);
@@ -58,8 +59,8 @@ public class ChoiceCluster extends MyTextComponent {
 		super.attach(container);
 		container.add(choice);
 	}
-	
-	public void setFont(Font font){
-		choice.setFont(font);		
+
+	public void setFont(Font font) {
+		choice.setFont(font);
 	}
 }

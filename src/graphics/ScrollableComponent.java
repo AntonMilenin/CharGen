@@ -2,6 +2,7 @@ package graphics;
 
 import graphics.textComponent.*;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -290,7 +291,17 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
 	public void saveAsImage() {
 		BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = img.createGraphics();
+		for (MyTextComponent c: clusters.values()){
+			if (c.getClass() == ChoiceCluster.class) {
+				((ChoiceCluster) c).hideChoice(); 
+			}
+		}
 		printAll(g2d);
+		for (MyTextComponent c: clusters.values()){
+			if (c.getClass() == ChoiceCluster.class) {
+				((ChoiceCluster) c).showChoice(); 
+			}
+		}
 		g2d.dispose();
 		JFileChooser fileChooser = new JFileChooser();
 		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
