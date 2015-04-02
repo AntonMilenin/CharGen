@@ -2,6 +2,7 @@ package mechanics.character;
 
 import mechanics.Attribute;
 import mechanics.Skill;
+import mechanics.SkillBase;
 import mechanics.races.Brajagrah;
 import mechanics.races.RaceInfo;
 
@@ -30,13 +31,20 @@ public class GameCharacter implements Serializable{
     private RaceInfo race;
     private int physicalPool;
     private int mentalPool;
+    private int maxInnatePointsPerAttribute;
+    private int maxInnateDecreaseCount;
+    private final TempStats myTemp;
+    private final SkillBase mySkillBase;
 
     public GameCharacter() {
-        this("John Doe", Gender.MALE, 20, 175, "bald", "white", 550, 0, 3, false, new Brajagrah());
+        this("John Doe", Gender.MALE, 20, 175, "bald", "white", 550, 0, 3, false, new Brajagrah(), 2, 5, new TempStats(), SkillBase.ATARAX_BASE);
     }
 
     public GameCharacter(String name, Gender gender, Integer age, Integer height, String hair, String skin,
-                         int skillPoints, int skillPointsSpent, int attributePoints, boolean leftSkillPointsControl, RaceInfo race) {
+                         int skillPoints, int skillPointsSpent, int attributePoints, boolean leftSkillPointsControl,
+                         RaceInfo race, int maxInnatePointsPerAttribute, int maxInnateDecreaseCount, TempStats tempStats,
+                         SkillBase skillBase) {
+        mySkillBase = skillBase;
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -48,11 +56,34 @@ public class GameCharacter implements Serializable{
         this.attributePoints = attributePoints;
         this.leftSkillPointsControl = leftSkillPointsControl;
         this.race = race;
+        this.maxInnatePointsPerAttribute = maxInnatePointsPerAttribute;
+        this.maxInnateDecreaseCount = maxInnateDecreaseCount;
+        this.myTemp = tempStats;
         Collection<AttributeEntry> basicAttributes = race.getDefaultAttributes();
-        attributes = new HashMap<Attribute, AttributeEntry>();
+        attributes = new HashMap<>();
         for (AttributeEntry attribute: basicAttributes) {
             attributes.put(attribute.attribute, attribute);
         }
+    }
+
+    public void initSkill(Skill skill) {
+        SkillEntry entry = skills.get(skill);
+        if (entry == null) {
+            skills.put(skill, new SkillEntry(skill));
+        }
+    }
+
+    public void dropSkill(Skill skill) {
+        SkillEntry entry = skills.get(skill);
+        if (entry != null) {
+            for (int i = 0; i < entry.getLevel(); ++i) {
+                updateSkill(skill, false);
+            }
+        }
+    }
+
+    public SkillBase getSkillBase() {
+        return mySkillBase;
     }
 
     /**
@@ -68,7 +99,7 @@ public class GameCharacter implements Serializable{
             return;
         }
         updateSkillPoints(cost);
-        updateAttributePool(entry.getSkill().getKeyAttribute().isPhysical(), cost);
+        updateAttributePool(entry, cost);
         if (isIncrease) {
             entry.increase();
         } else {
@@ -76,36 +107,37 @@ public class GameCharacter implements Serializable{
         }
     }
 
-    private void updateAttributePool(boolean physical, int cost) {
-        if (physical) {
-            physicalPool -= cost;
-        } else {
-            mentalPool -= cost;
-        }
+    private void updateAttributePool(SkillEntry entry, int cost) {
+        int mentalRatio = entry.getSkill().getMentalToPhysicalRatio();
+        int physicalRatio = 10 - entry.getSkill().getMentalToPhysicalRatio();
+        mentalPool -= cost * mentalRatio / 10;
+        physicalPool -= cost * physicalRatio / 10;
     }
 
-    /**
-     * Returns string representation of value of a given skill.
-     * @param skill
-     * @return
-     */
-    public String getSkillValue(Skill skill) {
+    public int getSkillValue(Skill skill) {
         SkillEntry entry = skills.get(skill);
         if (entry == null) {
             //init with empty skill entry
             entry = new SkillEntry(skill);
             skills.put(skill, entry);
         }
-        return Integer.toString(entry.getLevel());
+        return entry.getLevel();
     }
 
-    /**
-     * Returns string representation of value of a given attribute.
-     * @param attribute
-     * @return
-     */
-    public String getAttributeValue(Attribute attribute) {
-        return attributes.get(attribute).toString();
+    public int getAttributeValue(Attribute attribute) {
+        return attributes.get(attribute).getValue();
+    }
+
+    public String getInnateAttributeValue(Attribute attribute) {
+        return Integer.toString(attributes.get(attribute).innate);
+    }
+
+    public String getAquiredAttribute(Attribute attribute) {
+        return Integer.toString(attributes.get(attribute).aquired);
+    }
+
+    public String getAttributeBaseValue(Attribute attribute) {
+        return Integer.toString(attributes.get(attribute).basic);
     }
 
     /**
@@ -117,7 +149,7 @@ public class GameCharacter implements Serializable{
         AttributeEntry entry = attributes.get(attribute);
         if (entry.aquired == 0 && !isIncrease) return;
         int changeCost = entry.getAquiredChangeCost(isIncrease);
-        boolean canChange = attribute.isPhysical() ? physicalPool >= changeCost : mentalPool >= changeCost;
+        boolean canChange = !isIncrease || (attribute.isPhysical() ? physicalPool >= changeCost : mentalPool >= changeCost);
         if (canChange) {
             if (attribute.isPhysical()) {
                 physicalPool -= changeCost;
@@ -143,13 +175,13 @@ public class GameCharacter implements Serializable{
             } else {
                 mentalPool -= 100;
             }
-        } else if (isIncrease && attributePoints > 0) {
+        } else if (isIncrease && attributePoints > 0 && entry.innate < maxInnatePointsPerAttribute) {
             attributePoints--;
             entry.increaseInnate();
         } else if (!isIncrease && entry.innate > 0) {
             attributePoints++;
             entry.decreaseInnate();
-        } else if (!isIncrease) {
+        } else if (!isIncrease && canDecreaseInnate(attribute)) {
             entry.decreaseInnate();
             boolean updatedPhysicalPool = getPoolToIncreaseInModalDialogue();
             entry.penaltyIsPhysical.push(updatedPhysicalPool);
@@ -159,6 +191,15 @@ public class GameCharacter implements Serializable{
                 mentalPool += 100;
             }
         }
+    }
+
+    private boolean canDecreaseInnate(Attribute attribute) {
+        AttributeEntry entry = attributes.get(attribute);
+        int totalDecreases = 0;
+        for (AttributeEntry some : attributes.values()) {
+            totalDecreases += some.innate < 0 ? -some.innate : 0;
+        }
+        return entry.innate > (-maxInnatePointsPerAttribute) && totalDecreases < maxInnateDecreaseCount;
     }
 
     /**
@@ -245,6 +286,14 @@ public class GameCharacter implements Serializable{
         return res;
     }
 
+    public String getPhysicalPool() {
+        return Integer.toString(physicalPool);
+    }
+
+    public String getMentalPool() {
+        return Integer.toString(mentalPool);
+    }
+
     /**
      * User: jamesbrain
      * Date: 21.02.2015
@@ -319,9 +368,12 @@ public class GameCharacter implements Serializable{
 
         public AttributeEntry(Attribute attribute, int value) {
             this.attribute = attribute;
-            this.innate = ATTRIBUTE_BASE;
-            int difference = value - innate;
-            changeDifference(difference);
+            this.basic = ATTRIBUTE_BASE;
+            int difference = value - basic;
+            this.basic += difference;
+            if (attribute.isLearningAttribute()) {
+                skillPointsBonus += LEARNING_COEFFICIENT * difference;
+            }
         }
 
         public int getValue() {
@@ -329,7 +381,7 @@ public class GameCharacter implements Serializable{
         }
 
         public int getAquiredChangeCost(boolean isIncrease) {
-            return isIncrease ? poolThreshold : poolThreshold - POOL_STEP;
+            return isIncrease ? poolThreshold : -(poolThreshold - POOL_STEP);
         }
 
         public void increaseInnate() {
@@ -344,7 +396,7 @@ public class GameCharacter implements Serializable{
         }
 
         public void decreaseInnate() {
-            changeDifference(-11);
+            changeDifference(-1);
         }
 
         public void changeAquired(boolean isIncrease) {

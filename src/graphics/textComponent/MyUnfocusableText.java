@@ -1,6 +1,7 @@
 package graphics.textComponent;
 
 import graphics.Constants;
+import graphics.ScrollableComponent;
 
 public class MyUnfocusableText extends MyTextComponent{
 	public MyUnfocusableText(int x, int y, int width, int height, String value) {

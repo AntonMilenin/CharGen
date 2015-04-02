@@ -1,17 +1,20 @@
 package graphics.textComponent;
 
 import graphics.Constants;
+import graphics.ScrollableComponent;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 public class ChoiceCluster extends MyTextComponent {
-	JComboBox<String> choice;
+	protected JComboBox<String> choice;
 	boolean showed = false;
 
 	public ChoiceCluster(int x, int y, int width, int height, String value) {
@@ -32,11 +35,14 @@ public class ChoiceCluster extends MyTextComponent {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				textField.setText((String) e.getItem());
-
 			}
 		});
 		choice.addItem(value);
 	}
+
+    public void update() {
+        getTextField().setText((String)choice.getSelectedItem());
+    }
 
 	public void add(String value) {
 		choice.addItem(value);
@@ -55,7 +61,7 @@ public class ChoiceCluster extends MyTextComponent {
 	}
 
 	@Override
-	public void attach(JLabel container) {
+	public void attach(ScrollableComponent container) {
 		super.attach(container);
 		container.add(choice);
 	}

@@ -1,5 +1,7 @@
 package graphics;
 
+import mechanics.SkillBase;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +26,7 @@ import javax.swing.JScrollPane;
 
 import mechanics.character.GameCharacter;
 import mechanics.character.Gender;
+import mechanics.character.TempStats;
 import mechanics.races.Brajagrah;
 
 public class MainFrame extends JFrame implements Serializable {
@@ -82,7 +85,7 @@ public class MainFrame extends JFrame implements Serializable {
 						}
 						XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(file)));
 						e.writeObject(new GameCharacter("John Doe", Gender.FEMALE, 201, 170, "bald", "white", 555, 0,
-								30, false, new Brajagrah()));
+								30, false, new Brajagrah(), 2, 5, new TempStats(), SkillBase.ATARAX_BASE));
 						e.close();
 					}
 

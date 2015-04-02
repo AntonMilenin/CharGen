@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * Time: 2:05
  */
 public enum Attribute {
-    STRENGTH, DEXTERITY, SPEED, VITALITY, INTELLECT, CHARISMA, WILL, PERCEPTION;
+    STRENGTH, DEXTERITY, SPEED, VITALITY, PERCEPTION, WILL, INTELLECT, CHARISMA;
 
     public static Collection<Attribute> getLearningAttributes() {
         return Arrays.asList(VITALITY, INTELLECT, WILL, PERCEPTION);
@@ -21,19 +21,52 @@ public enum Attribute {
     }
 
     public boolean isPhysical() {
-        return this == STRENGTH || this == DEXTERITY || this == SPEED || this == VITALITY || this == PERCEPTION;
+        return this == STRENGTH || this == DEXTERITY || this == SPEED || this == VITALITY;
     }
 
-//    public static int getPoolThreshold(int poolValue, final boolean isIncrease) {
-//        int threshold = 100;
-//        int prevThreshold = 100;
-//        while (poolValue > threshold) {
-//            prevThreshold = threshold;
-//            threshold += threshold + 100;
-//        }
-//        return isIncrease ? threshold : prevThreshold;
-//    }
+    public String russianRepresentation() {
+        switch (this) {
+            case STRENGTH: return "сила";
+            case DEXTERITY: return "ловкость";
+            case SPEED: return "скорость";
+            case VITALITY: return "выносливость";
+            case PERCEPTION: return "восприятие";
+            case WILL: return "сила воли";
+            case INTELLECT: return "интеллект";
+            case CHARISMA: return "харизма";
+            default: throw new RuntimeException("Unknown attribute " + this);
+        }
+    }
 
-//    public static final int ATTRIBUTE_BASE = 10;
-//    public static final int LEARNING_COEFFICIENT = 30;
+    public String getShortName() {
+        switch (this) {
+            case STRENGTH: return "STR";
+            case DEXTERITY: return "DEX";
+            case SPEED: return "SPD";
+            case VITALITY: return "VIT";
+            case PERCEPTION: return "PRT";
+            case WILL: return "WP";
+            case INTELLECT: return "INT";
+            case CHARISMA: return "CHA";
+            default: throw new RuntimeException("Unknown attribute " + this);
+        }
+    }
+
+    /**
+     * This is used to make sure visual representation does not depend on order of elements in enum.
+     * @return
+     */
+    public int getIndex() {
+        switch (this) {
+            case STRENGTH: return 0;
+            case DEXTERITY: return 1;
+            case SPEED: return 2;
+            case VITALITY: return 3;
+            case PERCEPTION: return 4;
+            case WILL: return 5;
+            case INTELLECT: return 6;
+            case CHARISMA: return 7;
+            default: throw new RuntimeException("Unknown attribute " + this);
+        }
+    }
 }
