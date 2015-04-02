@@ -205,7 +205,11 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
 		race.add("������");
 
 		MyTextComponent skillPoints = new MyTextComponent(skillPointsLeftBound, speciesBotBound, playerLeftBound
-				- skillPointsLeftBound, 55, "650");
+				- skillPointsLeftBound, 55, Integer.toString(gameCharacter.getRemainingSkillPoints())) {
+            public void update() {
+                getTextField().setText(Integer.toString(gameCharacter.getRemainingSkillPoints()));
+            }
+        };
 		skillPoints.attach(this);
 		clusters.add(skillPoints);
 

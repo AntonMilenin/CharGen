@@ -13,12 +13,17 @@ public class MyTextComponent implements MyUpdatable {
 	protected JTextField textField;
 	protected ScrollableComponent container;
 
+    public MyTextComponent(int x, int y, int width, int height, String value, boolean isFocusable) {
+        border = new Rectangle(x, y, width, height);
+        textField = new BorderlessTextField();
+        textField.setBounds(x, y, width, height);
+        textField.setFont(Constants.FONT);
+        textField.setText(value);
+        textField.setFocusable(isFocusable);
+    }
+
 	public MyTextComponent(int x, int y, int width, int height, String value) {
-		border = new Rectangle(x, y, width, height);
-		textField = new BorderlessTextField();
-		textField.setBounds(x, y, width, height);
-		textField.setFont(Constants.FONT);
-		textField.setText(value);
+		this(x, y, width, height, value, true);
 	}
 			
 	public void attach(ScrollableComponent container){
