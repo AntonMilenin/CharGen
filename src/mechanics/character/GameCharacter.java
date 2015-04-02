@@ -76,7 +76,7 @@ public class GameCharacter implements Serializable{
     public void dropSkill(Skill skill) {
         SkillEntry entry = skills.get(skill);
         if (entry != null) {
-            for (int i = 0; i < entry.getLevel(); ++i) {
+            while (entry.getLevel() > 0) {
                 updateSkill(skill, false);
             }
         }
@@ -94,7 +94,7 @@ public class GameCharacter implements Serializable{
     public void updateSkill(Skill skill, boolean isIncrease) {
         SkillEntry entry = skills.get(skill);
         assert(entry != null);
-        int cost = entry.getChangeCost(isIncrease);
+        int cost = entry.getChangeCost(isIncrease, skill);
         if (getRemainingSkillPoints() < cost && leftSkillPointsControl || entry.getLevel() == 0 && !isIncrease) {
             return;
         }
@@ -110,8 +110,8 @@ public class GameCharacter implements Serializable{
     private void updateAttributePool(SkillEntry entry, int cost) {
         int mentalRatio = entry.getSkill().getMentalToPhysicalRatio();
         int physicalRatio = 10 - entry.getSkill().getMentalToPhysicalRatio();
-        mentalPool -= cost * mentalRatio / 10;
-        physicalPool -= cost * physicalRatio / 10;
+        mentalPool += cost * mentalRatio / 10;
+        physicalPool += cost * physicalRatio / 10;
     }
 
     public int getSkillValue(Skill skill) {
@@ -122,6 +122,10 @@ public class GameCharacter implements Serializable{
             skills.put(skill, entry);
         }
         return entry.getLevel();
+    }
+
+    public int getAttributeBonusValue(Attribute attribute) {
+        return attributes.get(attribute).getBonus();
     }
 
     public int getAttributeValue(Attribute attribute) {
@@ -321,7 +325,7 @@ public class GameCharacter implements Serializable{
             level--;
         }
 
-        public int getChangeCost(boolean isIncrease) {
+        public int getChangeCost(boolean isIncrease, Skill skill) {
             int res;
             int prevLevel = isIncrease ? level : level - 1;
             if (prevLevel < 5) {
@@ -335,7 +339,7 @@ public class GameCharacter implements Serializable{
             } else {
                 res = 100;
             }
-            return res * (isIncrease ? 1 : -1);
+            return res * (isIncrease ? 1 : -1) * skill.getComplexity();
         }
 
         public Skill getSkill() {
@@ -378,6 +382,10 @@ public class GameCharacter implements Serializable{
 
         public int getValue() {
             return basic + innate + aquired;
+        }
+
+        public int getBonus() {
+            return getValue() - ATTRIBUTE_BASE;
         }
 
         public int getAquiredChangeCost(boolean isIncrease) {

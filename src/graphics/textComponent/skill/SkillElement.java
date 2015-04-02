@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 public class SkillElement implements MyUpdatable {
 
     private final GameCharacter myCharacter;
-    private Skill mySkill;
+    private ScrollableComponent myContainer;
 
     private final SkillCluster skillCluster;
     private final MyTextComponent statComponent;
@@ -57,7 +57,7 @@ public class SkillElement implements MyUpdatable {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
                     myCharacter.updateSkill(skill, true);
-                    update();
+                    myContainer.updateCalculables();
                 }
             }
         });
@@ -67,7 +67,7 @@ public class SkillElement implements MyUpdatable {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
                     myCharacter.updateSkill(skill, false);
-                    update();
+                    myContainer.updateCalculables();
                 }
             }
         });
@@ -75,7 +75,7 @@ public class SkillElement implements MyUpdatable {
             public void update() {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
-                    getTextField().setText(Integer.toString(myCharacter.getAttributeValue(skill.
+                    getTextField().setText(Integer.toString(myCharacter.getAttributeBonusValue(skill.
                             getKeyAttribute())));
                 }
             }
@@ -84,7 +84,7 @@ public class SkillElement implements MyUpdatable {
             public void update() {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
-                    getTextField().setText(Integer.toString(myCharacter.getSkillValue(skill) + myCharacter.getAttributeValue(skill.
+                    getTextField().setText(Integer.toString(myCharacter.getSkillValue(skill) + myCharacter.getAttributeBonusValue(skill.
                             getKeyAttribute())));
                 }
             }
@@ -93,7 +93,7 @@ public class SkillElement implements MyUpdatable {
             public void update() {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
-                    getTextField().setText(skill.getKeyAttribute().isPhysical() ? "PHYS" : "MENT");
+                    getTextField().setText(skill.getMentalToPhysicalRatio() + "/" + (10 - skill.getMentalToPhysicalRatio()));
                 }
             }
         };
@@ -113,6 +113,7 @@ public class SkillElement implements MyUpdatable {
 
     @Override
     public void attach(ScrollableComponent container) {
+        myContainer = container;
         typeComponent.attach(container);
         skillCluster.attach(container);
         statComponent.attach(container);
