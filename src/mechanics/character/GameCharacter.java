@@ -6,6 +6,7 @@ import mechanics.SkillBase;
 import mechanics.races.Brajagrah;
 import mechanics.races.RaceInfo;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.*;
 
@@ -212,8 +213,11 @@ public class GameCharacter implements Serializable{
      * @return true if physical pool must be increase, false if mental pool must be increased
      */
     private boolean getPoolToIncreaseInModalDialogue() {
-        //TODO: implement me
-        return false;
+        String[] options = { "Mental pool", "Physical pool"};
+        String message = "Where are you want to put new points?";
+        String title = "We are getting retard here!";
+        return JOptionPane.showOptionDialog(null, message, title, JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, options, options[1]) == 1;
     }
 
     //------------GETTERS AND SETTERS----------------------
