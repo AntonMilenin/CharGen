@@ -7,11 +7,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 
 public class ChoiceCluster extends MyTextComponent {
 	protected JComboBox<String> choice;
@@ -29,12 +26,13 @@ public class ChoiceCluster extends MyTextComponent {
 		choice.setForeground(Color.BLACK);
 		choice.setFont(Constants.FONT);
 		choice.setBackground(Color.WHITE);
+		choice.setRenderer(new MyComboBoxRenderer(choice));
 		choice.setVisible(true);
 		choice.addItemListener(new ItemListener() {
-
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				textField.setText((String) e.getItem());
+				choice.setToolTipText((String) e.getItem());
 			}
 		});
 		choice.addItem(value);

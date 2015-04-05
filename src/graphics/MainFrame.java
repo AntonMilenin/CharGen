@@ -23,6 +23,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 import mechanics.character.GameCharacter;
 import mechanics.character.Gender;
@@ -36,6 +37,7 @@ public class MainFrame extends JFrame implements Serializable {
 	}
 
 	public void run() {
+		UIManager.put("ToolTip.font", Constants.SMALL_FONT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		java.net.URL imgURL = MainFrame.class.getResource(Constants.IMAGE_PATH);
 		if (imgURL == null) {

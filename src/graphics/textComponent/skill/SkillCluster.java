@@ -2,13 +2,14 @@ package graphics.textComponent.skill;
 
 import graphics.Constants;
 import graphics.ScrollableComponent;
-import graphics.textComponent.ChoiceCluster;
+import graphics.textComponent.MyComboBoxRenderer;
 import graphics.textComponent.MyTextComponent;
 import mechanics.Skill;
 import mechanics.SkillBase;
 import mechanics.character.GameCharacter;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -40,6 +41,7 @@ public class SkillCluster extends MyTextComponent {
         choice.setFont(Constants.FONT);
         choice.setBackground(Color.WHITE);
         choice.setVisible(true);
+		choice.setRenderer(new MyComboBoxRenderer(choice));
         choice.addItem(value);
 
         for (Skill skill: mySkillBase.getSkills()) {
@@ -54,6 +56,7 @@ public class SkillCluster extends MyTextComponent {
             public void itemStateChanged(ItemEvent e) {
                 String name = (String) e.getItem();
                 textField.setText(name);
+				choice.setToolTipText(name);
                 Skill newSkill = nameToSkill.get(name);
                 if (mySkill == null || !mySkill.equals(newSkill)) {
                     myCharacter.dropSkill(mySkill);
