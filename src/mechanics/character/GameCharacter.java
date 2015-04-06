@@ -278,7 +278,7 @@ public class GameCharacter implements Serializable{
         //TODO: implement change of basic attribute values!!
     }
 
-    private int getRemainingSkillPoints() {
+    public int getRemainingSkillPoints() {
         return skillPoints + calcSkillPointsFromAttributes() - skillPointsSpent;
     }
 

@@ -33,7 +33,7 @@ public class SkillElement implements MyUpdatable {
                         int totalX, int typeX, int width, int height, GameCharacter character) {
         myCharacter = character;
         skillCluster = new SkillCluster(skillX, skillY, skillWidth, height, Skill.DEFAULT_ID, myCharacter);
-        statComponent = new MyTextComponent(statX, skillY, width, height, Skill.DEFAULT_ID){
+        statComponent = new MyTextComponent(statX, skillY, width, height, Skill.DEFAULT_ID, false){
             public void update() {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
@@ -70,7 +70,7 @@ public class SkillElement implements MyUpdatable {
                 }
             }
         });
-        statBonusComponent = new MyTextComponent(statBonusX, skillY, width, height, Skill.DEFAULT_ID) {
+        statBonusComponent = new MyTextComponent(statBonusX, skillY, width, height, Skill.DEFAULT_ID, false) {
             public void update() {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
@@ -79,7 +79,7 @@ public class SkillElement implements MyUpdatable {
                 }
             }
         };
-        totalComponent = new MyTextComponent(totalX, skillY, width, height, Skill.DEFAULT_ID) {
+        totalComponent = new MyTextComponent(totalX, skillY, width, height, Skill.DEFAULT_ID, false) {
             public void update() {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
@@ -88,7 +88,7 @@ public class SkillElement implements MyUpdatable {
                 }
             }
         };
-        typeComponent = new MyTextComponent(typeX, skillY, width, height, Skill.DEFAULT_ID) {
+        typeComponent = new MyTextComponent(typeX, skillY, width, height, Skill.DEFAULT_ID, false) {
             public void update() {
                 Skill skill = skillCluster.getSkill();
                 if (skill != null) {
