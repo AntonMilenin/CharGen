@@ -117,19 +117,7 @@ public class MainFrame extends JFrame implements Serializable {
 				}
 			}
 		});
-
-		JMenuItem questionItem = new JMenuItem("Ask a question");
-		fileMenu.add(questionItem);
-		questionItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String[] options = { "Mental pool", "Physical pool", "Cancel" };
-				String message = "Where are you want to put new points?";
-				String title = "We are getting retard here!";
-				System.out.println(JOptionPane.showOptionDialog(null, message, title, JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE, null, options, options[2]));
-			}
-		});
+		
 		pack();
 		setVisible(true);
 	}

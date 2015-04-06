@@ -1,16 +1,12 @@
 package graphics;
 
 import graphics.textComponent.*;
-import graphics.textComponent.attribute.AquiredAttributeNumberCluster;
 import graphics.textComponent.attribute.AttributeElement;
-import graphics.textComponent.attribute.InnateAttributeNumberCluster;
 import graphics.textComponent.skill.SkillElement;
 import mechanics.Attribute;
 import mechanics.character.GameCharacter;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -26,11 +22,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class ScrollableComponent extends JLabel implements Scrollable, MouseMotionListener {
 	int maxUnitIncrement = 10;
@@ -267,9 +260,10 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
 
 		int[] skillY = new int[] { 1040, 1097, 1153, 1210, 1266, 1323, 1379, 1436, 1492, 1549, 1606, 1662, 1719, 1775,
 				1832, 1888, 1945, 2001, 2058, 2114, 2171 };
+        int skillHeight = 53;
 		for (int i = 0; i < skillY.length; i++) {
 
-            SkillElement skillElement = new SkillElement(skillY[i], 100, 392, 495, 574, 653, 732, 811, 890, attributeWidth, attributeHeight, gameCharacter);
+            SkillElement skillElement = new SkillElement(skillY[i], 100, 392, 495, 574, 653, 732, 811, 890, attributeWidth, skillHeight, gameCharacter);
             clusters.add(skillElement);
 //            clusters.add(new ChoiceCluster(100, skillY[i], 392, 54, "acrobatics"));
 //

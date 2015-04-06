@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.util.Collections;
 
 import javax.swing.JPanel;
 
@@ -13,7 +12,6 @@ import mechanics.HealthGenerator;
 public class Health extends JPanel {
 	private final int R = 40;
 	private int[] health = new int[] { 4, 3, 2, 1 };
-	private int[] baseHealth = new int[] { 4, 3, 2, 1 };
 	private int[] healthValues = new int[] { 1, 5, 10, 15 };
 	
 	Health(int vit) {

@@ -16,10 +16,6 @@ public class ChoiceCluster extends MyTextComponent {
 
 	public ChoiceCluster(int x, int y, int width, int height, String value) {
 		super(x, y, width, height, value);
-		System.out.println(x);
-		System.out.println(y);
-		System.out.println(width);
-		System.out.println(height);
 		textField.setVisible(false);
 		choice = new JComboBox<>();
 		choice.setBounds(x, y, width, height);

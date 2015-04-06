@@ -1,7 +1,6 @@
 package graphics.textComponent.skill;
 
 import graphics.ScrollableComponent;
-import graphics.textComponent.ChoiceCluster;
 import graphics.textComponent.MyTextComponent;
 import graphics.textComponent.MyUpdatable;
 import graphics.textComponent.NumberCluster;

@@ -1,6 +1,5 @@
 package graphics.textComponent.attribute;
 
-import graphics.ScrollableComponent;
 import graphics.textComponent.NumberCluster;
 import mechanics.Attribute;
 import mechanics.character.GameCharacter;
