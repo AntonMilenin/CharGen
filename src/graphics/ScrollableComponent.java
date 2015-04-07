@@ -34,6 +34,15 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
     private MyTextComponent vitField;
     private final GameCharacter gameCharacter;
 
+    public static ScrollableComponent buildScrollableComponent(ImageIcon image, GameCharacter character){
+    	ScrollableComponent result = new ScrollableComponent(image, character);
+    	result.addTextFields();
+    	return result;
+    }
+
+    public static ScrollableComponent buildScrollableComponent(ImageIcon image){
+    	return buildScrollableComponent(image, new GameCharacter());
+    }
     /**
      * Updates all fields that could be changed indirectly by change of some other fields.
      */
@@ -42,17 +51,12 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
             component.update();
         }
     }
-
-    ScrollableComponent(ImageIcon image){
-        this(image, new GameCharacter());
-    }
-
-	ScrollableComponent(ImageIcon image, GameCharacter character) {
+   
+	private ScrollableComponent(ImageIcon image, GameCharacter character) {
 		super(image);
 		setAutoscrolls(true); // enable synthetic drag events
 		addMouseMotionListener(this); // handle mouse drags
         this.gameCharacter = character;
-		addTextFields(); //TODO: this is unsafe, but nobody cares
 		try {
 			this.image = ImageIO.read(ScrollableComponent.class.getResourceAsStream(Constants.IMAGE_PATH));
 		} catch (IOException e) {
@@ -60,22 +64,6 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
 			System.exit(1);
 		}
 
-		final Health health = new Health(10);
-		health.setBounds(1033, 495, 500, 280);
-		this.add(health);
-
-//		final JTextField vit = vitField.getTextField();
-//		vit.getDocument().addDocumentListener(new DocumentListener() {
-//			public void changedUpdate(DocumentEvent e) {
-//			}
-//
-//			public void removeUpdate(DocumentEvent e) {
-//			}
-//
-//			public void insertUpdate(DocumentEvent e) {
-//				health.setVitality(Integer.parseInt(vit.getText()));
-//			}
-//		});
 		addMouseListener(new MouseListener() {
 
 			@Override
@@ -239,29 +227,6 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
             clusters.add(new AttributeElement(attributeY[attribute.getIndex()], innateStatLeftBound,
                     aquiredStatLeftBound, statLeftBound, attributeWidth, attributeHeight, attribute, gameCharacter));
         }
-//        //create innate attribute fields
-//        for (Attribute attribute: Attribute.values()) {
-//            clusters.add(new InnateAttributeNumberCluster(innateStatLeftBound, attributeY[attribute.getIndex()],
-//                    attributeWidth, attributeHeight, gameCharacter, attribute));
-//        }
-//
-//        //create acquired attribute fields
-//        for (Attribute attribute: Attribute.values()) {
-//            clusters.add(new AquiredAttributeNumberCluster(aquiredStatLeftBound, attributeY[attribute.getIndex()],
-//                    attributeWidth, attributeHeight, gameCharacter, attribute));
-//        }
-//
-//        //create basic attribute fields
-//        for (final Attribute attribute: Attribute.values()) {
-//            clusters.add(new NumberCluster(statLeftBound, attributeY[attribute.getIndex()], attributeWidth, attributeHeight,
-//                    gameCharacter.getAttributeBaseValue(attribute), false) {
-//                @Override
-//                public void update() {
-//                    this.getTextField().setText(gameCharacter.getAttributeBaseValue(attribute));
-//                }
-//            });
-//        }
-
 		int[] skillY = new int[] { 1040, 1097, 1153, 1210, 1266, 1323, 1379, 1436, 1492, 1549, 1606, 1662, 1719, 1775,
 				1832, 1888, 1945, 2001, 2058, 2114, 2171 };
         int skillHeight = 53;
@@ -269,15 +234,12 @@ public class ScrollableComponent extends JLabel implements Scrollable, MouseMoti
 
             SkillElement skillElement = new SkillElement(skillY[i], 100, 392, 495, 574, 653, 732, 811, 890, attributeWidth, skillHeight, gameCharacter);
             clusters.add(skillElement);
-//            clusters.add(new ChoiceCluster(100, skillY[i], 392, 54, "acrobatics"));
-//
-//			ChoiceCluster keyStatCluster = new ChoiceCluster(495, skillY[i], 76, 54, Constants.DEXTERETY.substring(0, 3));
-//            clusters.add(keyStatCluster);
-//            keyStatCluster.setFont(new Font("Dialog", Font.PLAIN, 28));
-//			clusters.add(new NumberCluster(574, skillY[i], 75, 53, "10"));
-//            clusters.add(new MyUnfocusableText(653, skillY[i], 75, 53, "10"));
         }
 
+		Health health = new Health(gameCharacter);
+		health.setBounds(1033, 495, 500, 280);
+		clusters.add(health);
+		
         for (MyUpdatable c : clusters) {
 			c.attach(this);
 		}

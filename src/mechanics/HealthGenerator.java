@@ -26,18 +26,5 @@ public class HealthGenerator {
 			}
 		}
 		return health;
-	}
-	
-	public static int[] generateHealthValues(int vit){
-		int[] healthValues =  new int[5];
-		for (int i = 1; i < healthValues.length; i++) {
-			healthValues[i] = Math.max(1, i * 5 + vit - 10);
-		}
-		healthValues[0] = 1;
-		return healthValues;
-	}
-	
-	
-	
-	
+	}	
 }

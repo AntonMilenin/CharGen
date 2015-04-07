@@ -1,5 +1,6 @@
 package graphics.textComponent.skill;
 
+import graphics.Constants;
 import graphics.ScrollableComponent;
 import graphics.textComponent.MyTextComponent;
 import graphics.textComponent.MyUpdatable;
@@ -41,7 +42,7 @@ public class SkillElement implements MyUpdatable {
                 }
             }
         };
-        statComponent.getTextField().setFont(new Font("Dialog", Font.PLAIN, 28));
+        statComponent.getTextField().setFont(Constants.SMALL_FONT);
         rankComponent = new NumberCluster(rankX, skillY, width, height, Skill.DEFAULT_ID){
             public void update() {
                 Skill skill = skillCluster.getSkill();
@@ -96,7 +97,7 @@ public class SkillElement implements MyUpdatable {
                 }
             }
         };
-        typeComponent.getTextField().setFont(new Font("Dialog", Font.PLAIN, 28));
+        typeComponent.getTextField().setFont(Constants.SMALL_FONT);
     }
 
     @Override

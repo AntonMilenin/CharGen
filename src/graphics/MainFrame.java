@@ -47,7 +47,7 @@ public class MainFrame extends JFrame implements Serializable {
 			System.out.println("URL generated");
 		}
 		ImageIcon icon = new ImageIcon(imgURL);
-		final ScrollableComponent panel = new ScrollableComponent(icon);
+		final ScrollableComponent panel = ScrollableComponent.buildScrollableComponent(icon);
 		JScrollPane pictureScrollPane = new JScrollPane(panel);
 		pictureScrollPane.setPreferredSize(new Dimension(300, 250));
 		add(pictureScrollPane);

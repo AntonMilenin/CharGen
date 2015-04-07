@@ -24,7 +24,7 @@ public class Fighter {
 			this.damage = new DamageRoller(damage);
 		}
 		health = HealthGenerator.generateHealthTriangle(vit);
-		healthValues = HealthGenerator.generateHealthValues(vit);
+		healthValues = new int[] { 1, 5, 10, 15, 20 };
 	}
 
 	private void takeHit(int incomingHit, int incomingDamage) {

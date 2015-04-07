@@ -28,12 +28,13 @@ public class AttributeElement implements MyUpdatable {
         myAttribute = attribute;
         innateCluster = new InnateAttributeNumberCluster(innateX, attributeY, width, height, myCharacter, myAttribute);
         aquiredCluster = new AquiredAttributeNumberCluster(aquiredX, attributeY, width, height, myCharacter, myAttribute);
-        baseCluster = new NumberCluster(baseX, attributeY, width, height, myCharacter.getAttributeBaseValue(attribute), false) {
+        baseCluster = new MyTextComponent(baseX, attributeY, width, height, myCharacter.getAttributeBaseValue(attribute), false) {
             @Override
             public void update() {
                 this.getTextField().setText(myCharacter.getAttributeBaseValue(myAttribute));
             }
         };
+        baseCluster.getTextField().setFocusable(false);
     }
 
     @Override

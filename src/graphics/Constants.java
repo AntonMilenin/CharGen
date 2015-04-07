@@ -5,7 +5,7 @@ import java.awt.Font;
 public class Constants {
 
 	public static final int FONT_SIZE = 46;
-	public static final int SMALL_FONT_SIZE = 20;
+	public static final int SMALL_FONT_SIZE = 28;
 	public static final String STRENGTH = "strength";
 	public static final String DEXTERETY = "dexterety";
 	public static final String SPEED = "speed";
