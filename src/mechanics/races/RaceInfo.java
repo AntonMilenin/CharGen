@@ -11,8 +11,7 @@ import java.util.Collection;
  * Date: 21.02.2015
  * Time: 14:03
  */
-public abstract class RaceInfo implements Serializable{
-    public abstract Collection<Magic> getPossibleMagics();
+public abstract class RaceInfo implements Serializable, Species {
     public abstract Collection<GameCharacter.AttributeEntry> getDefaultAttributes();
     public abstract String getRaceName();
 }

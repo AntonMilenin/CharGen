@@ -10,7 +10,13 @@ import java.util.Collection;
  * Time: 14:02
  */
 public abstract class Human extends RaceInfo {
+    @Override
     public Collection<Magic> getPossibleMagics() {
         return Magic.getDefaultMagics;
+    }
+
+    @Override
+    public String speciesName() {
+        return "Человек";
     }
 }

@@ -29,6 +29,6 @@ public class Brajagrah extends Human {
 
     @Override
     public String getRaceName() {
-        return "Brajagrah";
+        return "Брайаграх";
     }
 }
